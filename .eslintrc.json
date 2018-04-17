@@ -1,0 +1,14 @@
+{
+  "extends": "google",
+  "parserOptions": {
+    "ecmaVersion": 8,
+    "sourceType": "module"
+  },
+  "env": {
+    "node": true
+  },
+  "rules": {
+    "eslint linebreak-style": 0,
+    "max-len": [2, 160, 8]
+  }
+}
