@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import express from 'express';
+import bodyParser from 'body-parser';
 
 import users from './routes/api/users';
 import profiles from './routes/api/profiles';
@@ -19,6 +20,10 @@ mongoose
   .catch((err) => console.log(err));
 
 app.get('/', (req, res) => res.send('Hello World'));
+
+// configure body-parser
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
 
 // Use Routes
 app.use('/api/users', users);
