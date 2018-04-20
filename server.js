@@ -1,9 +1,10 @@
 import dotenv from 'dotenv';
 import express from 'express';
 import bodyParser from 'body-parser';
+import passport from 'passport';
 
 import users from './routes/api/users';
-import profiles from './routes/api/profiles';
+import profiles from './routes/api/profile';
 import songrecords from './routes/api/songrecords';
 import mongoose from 'mongoose';
 
@@ -19,11 +20,14 @@ mongoose
   .then(() => console.log('MongoDB Connected'))
   .catch((err) => console.log(err));
 
-app.get('/', (req, res) => res.send('Hello World'));
-
 // configure body-parser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
+
+// initialise passport
+app.use(passport.initialize());
+
+require('./config/passport').default(passport);
 
 // Use Routes
 app.use('/api/users', users);

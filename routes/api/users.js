@@ -1,6 +1,8 @@
 import express from 'express';
 import User from '../../models/User';
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import passport from 'passport';
 
 const router = express.Router(); // eslint-disable-line
 
@@ -54,11 +56,30 @@ router.post('/login', (req, res) => {
     // Check Password
     bcrypt.compare(password, user.password).then((isMatch) => {
       if (isMatch) {
-        res.json({msg: 'Success'});
+        // User Matched
+        const payload = {id: user.id, name: user.name}; // Create JWT payload
+        // Sign Token
+        jwt.sign(payload, process.env.secret, (err, token) => {
+          res.status(200).json({
+            success: true,
+            token: 'BEARER ' + token,
+          });
+        });
       } else {
         return res.status(400).json({password: 'Password incorrect'});
       }
     });
+  });
+});
+
+// @route   GET api/users/current
+// @desc    Return current user
+// @access  Private
+router.get('/current', passport.authenticate('jwt', {session: false}), (req, res) =>{
+  res.json({
+    id: req.user.id,
+    name: req.user.name,
+    email: req.user.email,
   });
 });
 
