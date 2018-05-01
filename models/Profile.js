@@ -1,27 +1,6 @@
 import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
-const playerStatsSchema = new Schema(
-  {
-    totalTimePlayed: {
-      type: String,
-    },
-    songsPlayed: {
-      type: Number,
-    },
-    missionsCompleted: {
-      type: Number,
-    },
-    lessonsCompleted: {
-      type: Number,
-    },
-    highestArcadeScore: {
-      type: Number,
-    },
-  },
-  {_id: false}
-);
-
 const ProfileSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
@@ -48,13 +27,31 @@ const ProfileSchema = new Schema({
     type: [String],
   },
   bio: {
-    type: [String],
+    type: String,
   },
+  playerStats: [
+    {
+      totalTimePlayed: {
+        type: Number,
+      },
+      songsPlayed: {
+        type: Number,
+      },
+      missionsCompleted: {
+        type: Number,
+      },
+      lessonsCompleted: {
+        type: Number,
+      },
+      highestArcadeScore: {
+        type: Number,
+      },
+    },
+  ],
   date: {
     type: Date,
     default: Date.now,
   },
-  playerStats: [playerStatsSchema],
 });
 
 export default mongoose.model('profile', ProfileSchema);

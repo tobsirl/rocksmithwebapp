@@ -9,6 +9,6 @@
   },
   "rules": {
     "eslint linebreak-style": 0,
-    "max-len": [2, 160, 8]
+    "max-len": [2, 200, 8]
   }
 }
