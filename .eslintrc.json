@@ -2,6 +2,7 @@
   "extends": "google",
   "parserOptions": {
     "ecmaVersion": 8,
+    "jsx": true,
     "sourceType": "module"
   },
   "env": {
