@@ -2,11 +2,12 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 //import { Form, FormGroup, Input, Label } from "reactstrap";
-import { createProfile } from "../../actions/profileActions";
+import { createProfile, getCurrentProfile } from "../../actions/profileActions";
 import { withRouter } from "react-router-dom";
 import TextFieldGroup from "../common/TextFieldGroup";
 import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
 import SelectListGroup from "../common/SelectListGroup";
+import isEmpty from "../../validation/isEmpty";
 
 class CreateProfile extends Component {
   constructor(props) {
@@ -27,9 +28,41 @@ class CreateProfile extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
+  componentDidMount() {
+    this.props.getCurrentProfile();
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
+    }
+    if (nextProps.profile.profile) {
+      const profile = nextProps.profile.profile;
+      const favouriteMusicCSV = profile.favouriteMusic.join(",");
+      const favouriteArtistsCSV = profile.favouriteArtists.join(",");
+
+      profile.platform = !isEmpty(profile.platform) ? profile.platform : "";
+      profile.instrementType = !isEmpty(profile.instrementType)
+        ? profile.instrementType
+        : "";
+      profile.instrementModel = !isEmpty(profile.instrementModel)
+        ? profile.instrementModel
+        : "";
+      profile.experience = !isEmpty(profile.experience)
+        ? profile.experience
+        : "";
+      profile.bio = !isEmpty(profile.bio) ? profile.bio : "";
+
+      this.setState({
+        handle: profile.handle,
+        platform: profile.platform,
+        instrementType: profile.instrementType,
+        instrementModel: profile.instrementModel,
+        experience: profile.experience,
+        favouriteMusic: favouriteMusicCSV,
+        favouriteArtists: favouriteArtistsCSV,
+        bio: profile.bio
+      });
     }
   }
 
@@ -72,10 +105,7 @@ class CreateProfile extends Component {
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
-              <h1 className="display-4 text-center">Create Profile</h1>
-              <p className="lead text-center">
-                Let's get some infomation to make your profile
-              </p>
+              <h1 className="display-4 text-center">Edit Profile</h1>
               <small className="d-block pb-3">* = required fields</small>
               <form onSubmit={this.onSubmit}>
                 <TextFieldGroup
@@ -159,6 +189,8 @@ class CreateProfile extends Component {
 }
 
 CreateProfile.propTypes = {
+  createProfile: PropTypes.func.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 };
@@ -168,6 +200,6 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default connect(mapStateToProps, { createProfile })(
+export default connect(mapStateToProps, { createProfile, getCurrentProfile })(
   withRouter(CreateProfile)
 );
