@@ -4,7 +4,7 @@ import bodyParser from 'body-parser';
 import passport from 'passport';
 
 import users from './routes/api/users';
-import profiles from './routes/api/profile';
+import profile from './routes/api/profile';
 import songrecords from './routes/api/songrecords';
 import mongoose from 'mongoose';
 
@@ -31,7 +31,7 @@ require('./config/passport').default(passport);
 
 // Use Routes
 app.use('/api/users', users);
-app.use('/api/profiles', profiles);
+app.use('/api/profile', profile);
 app.use('/api/songrecords', songrecords);
 
 app.listen(port, () => console.log(`Server running on port ${port}`));

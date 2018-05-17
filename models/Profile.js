@@ -13,7 +13,6 @@ const ProfileSchema = new Schema({
   },
   platform: {
     type: String,
-    enum: ['PC', 'XBOX', 'PS4'],
   },
   instrementType: {
     type: String,
