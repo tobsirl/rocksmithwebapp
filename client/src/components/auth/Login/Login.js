@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { loginUser } from "../../../actions/authActions";
 import classnames from "classnames";
+import { Form, Input } from "reactstrap";
 
 class Login extends Component {
   constructor() {
@@ -57,9 +58,9 @@ class Login extends Component {
               <p className="lead text-center">
                 Sign in to your Rocksmith account
               </p>
-              <form onSubmit={this.onSubmit}>
+              <Form onSubmit={this.onSubmit}>
                 <div className="form-group">
-                  <input
+                  <Input
                     type="email"
                     className={classnames("form-control form-control-lg", {
                       "is-invalid": errors.email
@@ -74,7 +75,7 @@ class Login extends Component {
                   )}
                 </div>
                 <div className="form-group">
-                  <input
+                  <Input
                     type="password"
                     className={classnames("form-control form-control-lg", {
                       "is-invalid": errors.password
@@ -89,7 +90,7 @@ class Login extends Component {
                   )}
                 </div>
                 <input type="submit" className="btn btn-info btn-block mt-4" />
-              </form>
+              </Form>
             </div>
           </div>
         </div>

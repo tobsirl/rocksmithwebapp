@@ -21,76 +21,85 @@ router.get('/test', (req, res) => res.json({msg: 'Profiles Endpoint'}));
 router.get(
   '/',
   passport.authenticate('jwt', {session: false}),
-  (req, res) => {
-    const errors = {};
-    Profile.findOne({user: req.user.id})
-      .populate('user', ['name'])
-      .then((profile) => {
-        if (!profile) {
-          errors.noprofile = 'There is no profile for this user';
-          return res.status(404).json(errors);
-        }
-        res.json(profile);
-      })
-      .catch((err) => res.status(404).json(err));
+  async (req, res) => {
+    try {
+      const errors = {};
+      const profile = await Profile.findOne({user: req.user.id}).populate(
+        'user',
+        ['name', 'avatar']
+      );
+      if (profile) {
+        return res.json(profile);
+      } else {
+        errors.noprofile = 'There is no profile for this user';
+        return res.status(404).json(errors);
+      }
+    } catch (err) {
+      return res.status(404).json(err);
+    }
   }
 );
 
 // @route   Get api/profile/all
 // @desc    Get all profiles
 // @access  Public
-router.get('/all', (req, res) => {
-  const errors = {};
-  Profile.find()
-    .populate('user', ['name'])
-    .then((profiles) => {
-      if (!profiles) {
-        errors.noprofile = 'There are no profiles';
-        return res.status(404).json(errors);
-      }
-      res.json(profiles);
-    })
-    .catch((err) =>
-      res.status(404).json({profile: 'There is no profile for this user'})
-    );
+router.get('/all', async (req, res) => {
+  try {
+    const errors = {};
+    const profiles = await Profile.find().populate('user', ['name', 'avatar']);
+    if (profiles) {
+      return res.json(profiles);
+    } else {
+      errors.noprofile = 'There are no profiles';
+      return res.status(404).json(errors);
+    }
+  } catch (err) {
+    return res.status(404).json(err);
+  }
 });
 
 // @route   Get api/profile/handle/:handle
 // @desc    Get profile by handle
 // @access  Public
 
-router.get('/handle/:handle', (req, res) => {
+router.get('/handle/:handle', async (req, res) => {
   const errors = {};
-  Profile.findOne({handle: req.params.handle})
-    .populate('user', ['name'])
-    .then((profile) => {
-      if (!profile) {
-        errors.noprofile = 'There is no profile for this user';
-        res.status(404).json(errors);
-      }
-      res.json(profile);
-    })
-    .catch((err) => res.status(404).json(err));
+  try {
+    const profile = await Profile.findOne({
+      handle: req.params.handle,
+    }).populate('user', ['name', 'avatar']);
+    if (profile) {
+      return res.json(profile);
+    } else {
+      errors.noprofile = 'There is no profile for this user';
+      return res.status(404).json(errors);
+    }
+  } catch (err) {
+    errors.noprofile = 'There is no profile for this user';
+    return res.status(404).json(errors);
+  }
 });
 
 // @route   Get api/profile/user/:user_id
 // @desc    Get profile by user ID
 // @access  Public
 
-router.get('/user/:user_id', (req, res) => {
+router.get('/user/:userId', async (req, res) => {
   const errors = {};
-  Profile.findOne({user: req.params.user_id})
-    .populate('user', ['name'])
-    .then((profile) => {
-      if (!profile) {
-        errors.noprofile = 'There is no profile for this user';
-        res.status(404).json(errors);
-      }
-      res.json(profile);
-    })
-    .catch((err) =>
-      res.status(404).json({profile: 'There is no profile for this user'})
-    );
+  try {
+    const profile = await Profile.findOne({
+      user: req.params.userId,
+    }).populate('user', ['name', 'avatar']);
+    if (profile) {
+      return res.json(profile);
+    } else {
+      errors.noprofile = 'There is no profile for this user';
+      return res.status(404).json(errors);
+    }
+  } catch (err) {
+    errors.noprofile = 'There is no profile for this user';
+    return res.status(404).json(errors);
+  }
 });
 
 // @route   Post api/profile
@@ -99,60 +108,64 @@ router.get('/user/:user_id', (req, res) => {
 router.post(
   '/',
   passport.authenticate('jwt', {session: false}),
-  (req, res) => {
-    const {errors, isValid} = validateProfileInput(req.body);
+  async (req, res) => {
+    try {
+      const {errors, isValid} = validateProfileInput(req.body);
 
-    // Check Validation
-    if (!isValid) {
-      // Return any errors with 400 status
-      return res.status(400).json(errors);
-    }
+      // Check Validation
+      if (!isValid) {
+        // Return any errors with 400 status
+        return res.status(400).json(errors);
+      }
 
-    // Get data
-    const profileData = {};
+      // Get data
+      const profileData = {};
+      profileData.user = req.user.id;
 
-    profileData.user = req.user.id;
-    if (req.body.handle) profileData.handle = req.body.handle;
-    if (req.body.instrementType) {
-      profileData.instrementType = req.body.instrementType;
-    }
-    if (req.body.instrementModel) {
-      profileData.instrementModel = req.body.instrementModel;
-    }
-    if (req.body.experience) profileData.experience = req.body.experience;
-    // favouriteMusic split into array
-    if (typeof req.body.favouriteMusic !== 'undefined') {
-      profileData.favouriteMusic = req.body.favouriteMusic.split(',');
-    }
+      if (req.body.handle) profileData.handle = req.body.handle;
+      if (req.body.instrementType) {
+        profileData.instrementType = req.body.instrementType;
+      }
+      if (req.body.instrementModel) {
+        profileData.instrementModel = req.body.instrementModel;
+      }
+      if (req.body.experience) profileData.experience = req.body.experience;
+      // favouriteMusic split into array
+      if (typeof req.body.favouriteMusic !== 'undefined') {
+        profileData.favouriteMusic = req.body.favouriteMusic.split(',');
+      }
 
-    // favouriteArtists split into array
-    if (typeof req.body.favouriteArtists !== 'undefined') {
-      profileData.favouriteArtists = req.body.favouriteArtists.split(',');
-    }
+      // favouriteArtists split into array
+      if (typeof req.body.favouriteArtists !== 'undefined') {
+        profileData.favouriteArtists = req.body.favouriteArtists.split(',');
+      }
 
-    if (req.body.bio) profileData.bio = req.body.bio;
+      if (req.body.bio) profileData.bio = req.body.bio;
 
-    Profile.findOne({user: req.user.id}).then((profile) => {
+      let profile = await Profile.findOne({user: req.user.id});
       if (profile) {
         // Update
-        Profile.findOneAndUpdate(
+        profile = await Profile.findOneAndUpdate(
           {user: req.user.id},
           {$set: profileData},
           {new: true}
-        ).then((profile) => res.json(profile));
+        );
+        return res.json(profile);
       } else {
         // Create
         // Check if handle exists
-        Profile.findOne({handle: profileData.handle}).then((profile) => {
-          if (profile) {
-            errors.handle = 'That handle already exists';
-            res.status(400).json(errors);
-          }
-          // Save Profile
-          new Profile(profileData).save().then((profile) => res.json(profile));
-        });
+        profile = await Profile.findOne({handle: profileData.handle});
+        if (profile) {
+          errors.handle = 'That handle already exists';
+          return res.status(400).json(errors);
+        }
+        // Save Profile
+        profile = await new Profile(profileData).save();
+        return res.json(profile);
       }
-    });
+    } catch (err) {
+      throw err;
+    }
   }
 );
 
@@ -162,16 +175,21 @@ router.post(
 router.post(
   '/playerstats',
   passport.authenticate('jwt', {session: false}),
-  (req, res) => {
-    const {errors, isValid} = validatePlayerStatsInput(req.body);
+  async (req, res) => {
+    try {
+      const {errors, isValid} = validatePlayerStatsInput(req.body);
+      // Check Validation
+      if (!isValid) {
+        // Return any errors with 400 status
+        return res.status(400).json(errors);
+      }
 
-    // Check Validation
-    if (!isValid) {
-      // Return any errors with 400 status
-      return res.status(400).json(errors);
-    }
+      let profile = await Profile.findOne({user: req.user.id});
+      if (!profile) {
+        errors.noprofile = 'There is no profile for this user';
+        return res.status(404).json(errors);
+      }
 
-    Profile.findOne({user: req.user.id}).then((profile) => {
       const newPlayerStats = {
         totalTimePlayed: req.body.totalTimePlayed,
         songsPlayed: req.body.songsPlayed,
@@ -180,8 +198,11 @@ router.post(
         highestArcadeScore: req.body.highestArcadeScore,
       };
       profile.playerStats.unshift(newPlayerStats);
-      profile.save().then((profile) => res.json(profile));
-    });
+      profile = await profile.save();
+      return res.json(profile);
+    } catch (err) {
+      throw err;
+    }
   }
 );
 
@@ -214,12 +235,14 @@ router.delete(
 router.delete(
   '/',
   passport.authenticate('jwt', {session: false}),
-  (req, res) => {
-    Profile.findByIdAndRemove({user: req.user.id}).then(() => {
-      User.findByIdAndRemove({_id: req.user.id}).then(() => {
-        res.json({success: true});
-      });
-    });
+  async (req, res) => {
+    try {
+      await Profile.findByIdAndRemove({user: req.user.id});
+      await User.findByIdAndRemove({_id: req.user.id});
+      return res.json({success: true});
+    } catch (err) {
+      throw err;
+    }
   }
 );
 
