@@ -40,19 +40,20 @@ router.get(
 // @route   Get api/profile/all
 // @desc    Get all profiles
 // @access  Public
-router.get('/all', async (req, res) => {
-  try {
-    const errors = {};
-    const profiles = await Profile.find().populate('user', ['name', 'avatar']);
-    if (profiles) {
-      return res.json(profiles);
-    } else {
-      errors.noprofile = 'There are no profiles';
-      return res.status(404).json(errors);
-    }
-  } catch (err) {
-    return res.status(404).json(err);
-  }
+router.get('/all', (req, res) => {
+  const errors = {};
+
+  Profile.find()
+    .populate('user', ['name', 'avatar'])
+    .then((profiles) => {
+      if (!profiles) {
+        errors.noprofile = 'There are no profiles';
+        return res.status(404).json(errors);
+      }
+
+      res.json(profiles);
+    })
+    .catch((err) => res.status(404).json({profile: 'There are no profiles'}));
 });
 
 // @route   Get api/profile/handle/:handle
