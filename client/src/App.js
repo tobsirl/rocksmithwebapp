@@ -17,7 +17,7 @@ import Login from "./components/auth/Login/Login";
 import Dashboard from "./components/Dashboard/Dashboard";
 import CreateProfile from "./components/CreateProfile/CreateProfile";
 import EditProfile from "./components/EditProfile/EditProfile";
-import PlayerStats from "./components/PlayerStats/PlayerStats";
+import AddPlayerStats from "./components/AddPlayerStats/AddPlayerStats";
 
 // Check for token
 if (localStorage.jwtToken) {
@@ -61,7 +61,7 @@ class App extends Component {
                 <PrivateRoute
                   exact
                   path="/playerstats"
-                  component={PlayerStats}
+                  component={AddPlayerStats}
                 />
               </Switch>
             </div>

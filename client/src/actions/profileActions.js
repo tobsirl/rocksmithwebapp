@@ -40,6 +40,37 @@ export const createProfile = (profileData, history) => (dispatch) => {
     );
 };
 
+// Add Player Stats
+export const addPlayerStats = (playerStatsData, history) => (dispatch) => {
+  axios
+    .post('/api/profile/playerstats', playerStatsData)
+    .then((res) => history.push('/dashboard'))
+    .catch((err) =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data,
+      })
+    );
+};
+
+// Delete Player Stats
+export const deletePlayerStats = (id) => (dispatch) => {
+  axios
+    .delete(`/api/profile/playerstats/${id}`)
+    .then((res) =>
+      dispatch({
+        type: GET_PROFILE,
+        payload: res.data,
+      })
+    )
+    .catch((err) =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data,
+      })
+    );
+};
+
 // Delete Account and profile
 export const deleteAccount = () => (dispatch) => {
   if (

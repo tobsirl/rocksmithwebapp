@@ -171,21 +171,19 @@ router.post(
 router.post(
   '/playerstats',
   passport.authenticate('jwt', {session: false}),
-  async (req, res) => {
-    try {
-      const {errors, isValid} = validatePlayerStatsInput(req.body);
-      // Check Validation
-      if (!isValid) {
-        // Return any errors with 400 status
-        return res.status(400).json(errors);
-      }
+  (req, res) => {
+    const {errors, isValid} = validatePlayerStatsInput(req.body);
+    // Check Validation
+    if (!isValid) {
+      // Return any errors with 400 status
+      return res.status(400).json(errors);
+    }
 
-      let profile = await Profile.findOne({user: req.user.id});
+    Profile.findOne({user: req.user.id}).then((profile) => {
       if (!profile) {
         errors.noprofile = 'There is no profile for this user';
         return res.status(404).json(errors);
       }
-
       const newPlayerStats = {
         totalTimePlayed: req.body.totalTimePlayed,
         songsPlayed: req.body.songsPlayed,
@@ -194,11 +192,8 @@ router.post(
         highestArcadeScore: req.body.highestArcadeScore,
       };
       profile.playerStats.unshift(newPlayerStats);
-      profile = await profile.save();
-      return res.json(profile);
-    } catch (err) {
-      throw err;
-    }
+      profile.save().then((profile) => res.json(profile));
+    });
   }
 );
 

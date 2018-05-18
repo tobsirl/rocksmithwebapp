@@ -3,8 +3,9 @@ import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import TextFieldGroup from "../common/TextFieldGroup";
+import { addPlayerStats } from "../../actions/profileActions";
 
-class PlayerStats extends Component {
+class AddPlayerStats extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,9 +21,23 @@ class PlayerStats extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+  }
   onSubmit(e) {
     e.preventDefault();
+
+    const playerStatsData = {
+      totalTimePlayed: this.state.totalTimePlayed,
+      songsPlayed: this.state.songsPlayed,
+      missionsCompleted: this.state.missionsCompleted,
+      lessonsCompleted: this.state.lessonsCompleted,
+      highestArcadeScore: this.state.highestArcadeScore
+    };
     console.log("submit");
+    this.props.addPlayerStats(playerStatsData, this.props.history);
   }
 
   onChange(e) {
@@ -40,7 +55,7 @@ class PlayerStats extends Component {
                 Go Back
               </Link>
               <div className="h1 display-4 text-center">Add Player Stats</div>
-              <form onSubmit={this.onSubmit} />
+              <form onSubmit={this.onSubmit} >
               <TextFieldGroup
                 placeholder="Total Time Played"
                 name="totalTimePlayed"
@@ -86,6 +101,7 @@ class PlayerStats extends Component {
                 value="Submit"
                 className="btn btn-info btn-block mt-4"
               />
+              </form>
             </div>
           </div>
         </div>
@@ -94,7 +110,8 @@ class PlayerStats extends Component {
   }
 }
 
-PlayerStats.propTypes = {
+AddPlayerStats.propTypes = {
+  addPlayerStats: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 };
@@ -104,4 +121,6 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default connect(mapStateToProps)(withRouter(PlayerStats));
+export default connect(mapStateToProps, { addPlayerStats })(
+  withRouter(AddPlayerStats)
+);
