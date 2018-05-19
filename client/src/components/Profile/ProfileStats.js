@@ -28,9 +28,8 @@ class ProfileStats extends Component {
       <div className="row">
         <div className="col-md-12">
           <h3 className="text-center text-info">Player Stats</h3>
+          {playerData}
         </div>
-
-        {playerData}
       </div>
     );
   }

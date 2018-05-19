@@ -15,12 +15,14 @@ class ProfileAbout extends Component {
       </div>
     ));
 
-    const favouriteArtists = profile.favouriteArtists.map((favArtists, index) => (
-      <div key={index} className="p-3">
-        <i className="fa fa-check" /> {favArtists}
-      </div>
-    ));
-    
+    const favouriteArtists = profile.favouriteArtists.map(
+      (favArtists, index) => (
+        <div key={index} className="p-3">
+          <i className="fa fa-check" /> {favArtists}
+        </div>
+      )
+    );
+
     return (
       <div className="row">
         <div className="col-md-12">
@@ -31,14 +33,14 @@ class ProfileAbout extends Component {
             <h3 className="text-center text-info">Favourite Music</h3>
             <div className="row">
               <div className="d-flex flex-wrap justify-content-center align-items-center">
-               {favouriteMusic}
+                {favouriteMusic}
               </div>
             </div>
             <hr />
             <h3 className="text-center text-info">Favourite Artists</h3>
             <div className="row">
               <div className="d-flex flex-wrap justify-content-center align-items-center">
-               {favouriteArtists}
+                {favouriteArtists}
               </div>
             </div>
           </div>
