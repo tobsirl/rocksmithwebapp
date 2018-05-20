@@ -7,18 +7,34 @@ import users from './routes/api/users';
 import profile from './routes/api/profile';
 import songrecords from './routes/api/songrecords';
 import mongoose from 'mongoose';
+import {Mockgoose} from 'mockgoose';
 
 dotenv.config();
 
 const port = process.env.PORT;
 
-const app = express();
+export const app = express(); // replaces the previous const app = express();
 
 // Connect to database
-mongoose
-  .connect(process.env.mongoDB)
-  .then(() => console.log('MongoDB Connected'))
-  .catch((err) => console.log(err));
+// mongoose
+//   .connect(process.env.mongoDB)
+//   .then(() => console.log('MongoDB Connected'))
+//   .catch((err) => console.log(err));
+if (process.env.nodeEnv == 'test') {
+  // use mockgoose for testing
+  const mockgoose = new Mockgoose(mongoose);
+  mockgoose.prepareStorage().then(() => {
+    mongoose.connect(process.env.mongoDB);
+  });
+} else {
+  // use real deal for everything else
+  mongoose.connect(process.env.mongoDB);
+}
+
+mongoose.connection.on('error', (err) => {
+  console.error('MongoDB connection error: ' + err);
+  process.exit(-1);
+});
 
 // configure body-parser
 app.use(bodyParser.json());

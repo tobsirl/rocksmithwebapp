@@ -15,7 +15,7 @@ const router = express.Router(); // eslint-disable-line
 // @access  Public
 router.get('/test', (req, res) => res.json({msg: 'Users Endpoint'}));
 
-// @route   GET api/users/register
+// @route   Post api/users/register
 // @desc    Tests users route
 // @access  Public
 router.post('/register', (req, res) => {

@@ -9,7 +9,8 @@
     "server": "nodemon --exec babel-node server.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cross-env NODE_ENV=test mocha --require babel-core/register --require babel-polyfill --reporter mochawesome --exit",
+    "pretest": "eslint *.js ./api/*.js ./test/*.js"
   },
   "author": "Paul Tobin",
   "license": "MIT",
@@ -27,9 +28,17 @@
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
+    "cross-env": "^5.1.5",
     "eslint": "^4.19.1",
     "eslint-config-google": "^0.9.1",
-    "nodemon": "^1.17.3"
+    "mocha": "^5.2.0",
+    "mochawesome": "^3.0.2",
+    "mockgoose": "^7.3.5",
+    "nodemon": "^1.17.3",
+    "should": "^13.2.1",
+    "supertest": "^3.1.0"
   }
 }

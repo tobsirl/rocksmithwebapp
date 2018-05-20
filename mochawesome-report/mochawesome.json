@@ -1,0 +1,102 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 2,
+    "passes": 1,
+    "pending": 0,
+    "failures": 1,
+    "start": "2018-05-20T19:38:43.550Z",
+    "end": "2018-05-20T19:38:43.731Z",
+    "duration": 181,
+    "testsRegistered": 2,
+    "passPercent": 50,
+    "pendingPercent": 0,
+    "other": 1,
+    "hasOther": true,
+    "skipped": 0,
+    "hasSkipped": false,
+    "passPercentClass": "danger",
+    "pendingPercentClass": "danger"
+  },
+  "suites": {
+    "uuid": "55a8e474-76fd-4d0e-a186-54b655ea53d4",
+    "title": "",
+    "fullFile": "",
+    "file": "",
+    "beforeHooks": [],
+    "afterHooks": [],
+    "tests": [
+      {
+        "title": "should register a user",
+        "fullTitle": "should register a user",
+        "timedOut": false,
+        "duration": 0,
+        "state": "failed",
+        "pass": false,
+        "fail": true,
+        "pending": false,
+        "code": "// post to /api/contacts\n(0, _supertest2.default)(_server.app).post('/api/users/register').send({\n  name: 'John Doe',\n  email: 'johndoe@email.com',\n  password: '123456',\n  password2: '123456'\n}).expect('Content-type', /json/).expect(201).end(function (err, res) {\n  res.status.should.equal(201);\n  res.body.should.have.property('_id');\n  res.body.name.should.equal('John Doe');\n  done();\n});",
+        "err": {
+          "message": "AssertionError: expected 400 to be 201",
+          "estack": "AssertionError: expected 400 to be 201\n    at Assertion.fail (node_modules\\should\\cjs\\should.js:275:17)\n    at Assertion.value (node_modules\\should\\cjs\\should.js:356:19)\n    at Test.<anonymous> (C:/Users/Paul/Desktop/React/rocksmithwebapp/test/testUsersAPI.js:36:25)\n    at Test.assert (node_modules\\supertest\\lib\\test.js:181:6)\n    at Server.assert (node_modules\\supertest\\lib\\test.js:131:12)\n    at emitCloseNT (net.js:1655:8)\n    at _combinedTickCallback (internal/process/next_tick.js:135:11)\n    at process._tickCallback (internal/process/next_tick.js:180:9)",
+          "diff": "- 400\n+ 201\n"
+        },
+        "isRoot": true,
+        "uuid": "b4346cfb-c8b5-4b7a-8a43-57bdda8fe404",
+        "isHook": false,
+        "skipped": false
+      }
+    ],
+    "suites": [
+      {
+        "uuid": "fc0fc8ee-2a68-4c3d-a152-c2ddca2f6816",
+        "title": "Users API unit test",
+        "fullFile": "C:\\Users\\Paul\\Desktop\\React\\rocksmithwebapp\\test\\testUsersAPI.js",
+        "file": "\\test\\testUsersAPI.js",
+        "beforeHooks": [],
+        "afterHooks": [],
+        "tests": [
+          {
+            "title": "should return collection of JSON documents",
+            "fullTitle": "Users API unit test should return collection of JSON documents",
+            "timedOut": false,
+            "duration": 3,
+            "state": "passed",
+            "speed": "fast",
+            "pass": true,
+            "fail": false,
+            "pending": false,
+            "code": "// calling home page api\n(0, _supertest2.default)(_server.app).get('/api/users/test').expect('Content-type', /json/).expect(200) // This is the HTTP response\n.end(function (err, res) {\n  // HTTP status should be 200\n  res.status.should.equal(200);\n  done();\n});",
+            "err": {},
+            "isRoot": false,
+            "uuid": "80dbca53-ea57-4fa2-87f8-32dc134abe42",
+            "isHook": false,
+            "skipped": false
+          }
+        ],
+        "suites": [],
+        "passes": [
+          "80dbca53-ea57-4fa2-87f8-32dc134abe42"
+        ],
+        "failures": [],
+        "pending": [],
+        "skipped": [],
+        "duration": 3,
+        "root": false,
+        "rootEmpty": false,
+        "_timeout": 120000
+      }
+    ],
+    "passes": [],
+    "failures": [
+      "b4346cfb-c8b5-4b7a-8a43-57bdda8fe404"
+    ],
+    "pending": [],
+    "skipped": [],
+    "duration": null,
+    "root": true,
+    "rootEmpty": false,
+    "_timeout": 2000
+  },
+  "copyrightYear": 2018
+}
