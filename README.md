@@ -1,20 +1,31 @@
 # Assignment 2 - ReactJS app + Node.js backend
 
-Name: Paul Tobin 20074222
+Name: Paul Tobin
 
 ## Overview.
 
-...... A statement of the app concept and objectives (about a half-page) ........
+Based on [Rocksmith 2014 remastered](https://rocksmith.ubisoft.com/rocksmith/en-us/home/) . Rocksmith is a music video game/learning tool developed by Ubisoft, it’s available on all major platforms, Xbox, PlayStation and PC. The game comes bundled with the Real Tone Cable, which is a USB lead that can be plugged into an electric guitar or bass. The Real Tone Cable allows the game to listen to the notes being played on the instrument and determined if the correct note was played at the correct time. It’s also capable of detecting other guitar techniques such as bends, slides, hammer ons and pull offs. Rocksmith offers a wide variety of guitar-based music and continues to grow its library with weekly downloadable content.
 
-. . . . . List of user features (excluding user registration and authentication) . . . .
+[Youtude Video](https://www.youtube.com/watch?v=XHM9uB2kNkU)
 
-* Feature 1
-* Feature 2
-* Feature 3
-* etc
-* etc
 
-## Installation requirements.
+* Profile for players of the game
+* Update with player stats
+* Store information on platform, instrement and bio
+
+## Installation requirements
+Installing dependencies:
+```bash
+npm install
+```
+To run the dev server
+```bash
+npm run dev
+```
+The project uses concurrently so both backend and frontend with start together
+```json
+"dev": "concurrently \"npm run server\" \"npm run client\""
+```
 
 ### Server Side
 
@@ -160,7 +171,7 @@ A diagram showing the app's hierarchical component design (see example below).
 | /login           | Public         | Login          | Login with User Account               |
 | /profiles        | Public         | Profiles       | View all Users                        |
 | /profile/:handle | Public         | Profile        | View a Profile by handle              |
-| /dashboard       | Public         | Dashboard      | Edit/Delete Account - Add playerstats |
+| /dashboard       | Private        | Dashboard      | Edit/Delete Account - Add playerstats |
 | /create-profile  | Private        | CreateProfile  | Create a Profile                      |
 | /edit-profile    | Private        | EditProfile    | Edit a Profile                        |
 | /playerstats     | Private        | AddPlayerStats | Add Player Stats                      |
@@ -175,10 +186,10 @@ A diagram showing the app's hierarchical component design (see example below).
 
 ## API Design
 
-Describe your web API.
+The backend Web API is a standard register as a user, login into to your account and begin using the website. Once you are a registered user you can create a profile through the dashboard.
 
-| HTTP Verb    | Path  | Public/Private        | Description         |
-| ----------------------- | --------| -- | ------------------------- |
+| HTTP Verb               | Path     | Public/Private | Description |
+| -- | -- |   --   |  --   |     
 | POST:| /api/users/register |Public  | Register a New User |
 | POST:| /api/users/login | Public           | Login User    |
 | GET: | /api/users/current   | Private | Return Current User    |
@@ -190,35 +201,43 @@ Describe your web API.
 | POST: |/api/profile/playerstats | Private| Add playerstats to profile
 |DELETE:|/api/profile/playerstats/:ps_id |Private |Delete playerstats from profile
 |DELETE:|/api/profile/|Private| Delete User and Profile
+
 ## API Configuration
 
 Describe the configuration approach for your endpoint. For example, contents of config file and where it should be located:
 
 ```bash
 NODE_ENV=development
-PORT=8080
+PORT=5000
 HOST=localhost
 mongoDB=YourMongoURL
-seedDb=true
 secret=YourJWTSecret
 ```
 
 ## Security and Authentication
 
-. . . . Give details of any autentication/security implemented in on the API. Indicate which routes are protected.
+The website has public routes for registering and logging into your new account. Vistors to the site can view the user profiles. You need to be logging into your account to add/edit your profile. The dashboard also allows you to add your player stats.
 
 ## Testing
+Testing is partial implemention on the backend API using mocha, should, supertest, mockgoose and mochawesome for report. The front end isn't tested.
 
-. . . . Briefly explain any testing strategy that accompanies the project, including and example report if you have one...
-![][image4]
+Tests can be run with the following command:
+```bash
+npm run test
+```
+```json
+"test": "cross-env NODE_ENV=test mocha --require babel-core/register --require babel-polyfill --reporter mochawesome --exit"
+```
+
 
 ## Extra features
 
 . . . . . Briefly explain any non-standard features, functional or non-functional (e.g. user registration, authentication) developed for the app . . . . . .
 
-## Independent learning.
+## Independent learning
 
-. . . . . State the non-standard aspects of React/Express/Node (or other related technologies) that you researched and applied in this assignment . . . . .
+Redux
+
 
 [image1]: ./model.png
 [image2]: ./design.jpg
