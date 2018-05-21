@@ -144,23 +144,20 @@ const ProfileSchema = new Schema({
 });
 ```
 
-Diagram of app's data model (see example below) AND/OR a sample of the test data used (JSON or equivalent).
-
-![][image1]
-
-Use meaningful sample data. Briefly explain any non-trivial issues.
 
 ## App Component Design.
 
 A diagram showing the app's hierarchical component design (see example below).
 
-![][image2]
+
 
 ## UI Design.
 
-. . . . . Screenshots of app's views (see example below) with appropriate captions (user regeneration and login views, if implemented, can be omitted) . . . . . . .
+![home](https://user-images.githubusercontent.com/25591390/40295931-095d4012-5cd3-11e8-9dd0-0ee76789286d.PNG)
+![login](https://user-images.githubusercontent.com/25591390/40295956-213efdba-5cd3-11e8-93f1-935205405028.PNG)
+![register](https://user-images.githubusercontent.com/25591390/40295970-2f85f112-5cd3-11e8-8c27-5ae1837c9f80.PNG)
 
-![][image3]
+
 
 ## Routing
 
@@ -178,11 +175,9 @@ A diagram showing the app's hierarchical component design (see example below).
 
 # Web API Endpoint Reference
 
-. . . Give a brief overview of the Web API functionality.
+API can register a user, login and get the current user. Once the user has created a profile they have access to the dashboard. From here they can edit their profile or add player stats.
 
-## Web API Install and Operation
 
-. . . . Describe how to install/start/stop the API. It would be a good idea to go though the scripts section of the package.json file.
 
 ## API Design
 
@@ -204,7 +199,7 @@ The backend Web API is a standard register as a user, login into to your account
 
 ## API Configuration
 
-Describe the configuration approach for your endpoint. For example, contents of config file and where it should be located:
+The API is using Mongoose with cloud based MongoDB, [Mlab](https://mlab.com/welcome/)
 
 ```bash
 NODE_ENV=development
@@ -217,6 +212,10 @@ secret=YourJWTSecret
 ## Security and Authentication
 
 The website has public routes for registering and logging into your new account. Vistors to the site can view the user profiles. You need to be logging into your account to add/edit your profile. The dashboard also allows you to add your player stats.
+
++ [jwt-token](https://jwt.io/)  
++ [passport](http://www.passportjs.org/)
+
 
 ## Testing
 Testing is partial implemention on the backend API using mocha, should, supertest, mockgoose and mochawesome for report. The front end isn't tested.
@@ -232,14 +231,9 @@ npm run test
 
 ## Extra features
 
-. . . . . Briefly explain any non-standard features, functional or non-functional (e.g. user registration, authentication) developed for the app . . . . . .
 
 ## Independent learning
 
 Redux
 
 
-[image1]: ./model.png
-[image2]: ./design.jpg
-[image3]: ./screen.png
-[image4]: ./testing.png
