@@ -156,6 +156,10 @@ A diagram showing the app's hierarchical component design (see example below).
 ![home](https://user-images.githubusercontent.com/25591390/40295931-095d4012-5cd3-11e8-9dd0-0ee76789286d.PNG)
 ![login](https://user-images.githubusercontent.com/25591390/40295956-213efdba-5cd3-11e8-93f1-935205405028.PNG)
 ![register](https://user-images.githubusercontent.com/25591390/40295970-2f85f112-5cd3-11e8-8c27-5ae1837c9f80.PNG)
+![viewprofiles](https://user-images.githubusercontent.com/25591390/40296425-7190a286-5cd4-11e8-82b5-f8cde22dcbc4.PNG)
+![dashboard](https://user-images.githubusercontent.com/25591390/40296506-adb117b4-5cd4-11e8-946c-80028122ba32.PNG)
+![profile](https://user-images.githubusercontent.com/25591390/40296631-1d08c918-5cd5-11e8-9a93-fd8e3dc72e24.PNG)
+
 
 
 
