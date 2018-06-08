@@ -6,6 +6,7 @@ import passport from 'passport';
 import users from './routes/api/users';
 import profile from './routes/api/profile';
 import songrecords from './routes/api/songrecords';
+import posts from './routes/api/posts';
 import mongoose from 'mongoose';
 import {Mockgoose} from 'mockgoose';
 
@@ -49,5 +50,6 @@ require('./config/passport').default(passport);
 app.use('/api/users', users);
 app.use('/api/profile', profile);
 app.use('/api/songrecords', songrecords);
+app.use('/api/posts', posts);
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
