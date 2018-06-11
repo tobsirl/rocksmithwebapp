@@ -20,6 +20,8 @@ import EditProfile from "./components/EditProfile/EditProfile";
 import AddPlayerStats from "./components/AddPlayerStats/AddPlayerStats";
 import Profiles from "./components/Profiles/Profiles";
 import Profile from "./components/Profile/Profile";
+import Posts from "./components/posts/Posts";
+import Post from "./components/Post/Post";
 
 // Check for token
 if (localStorage.jwtToken) {
@@ -67,6 +69,12 @@ class App extends Component {
                   path="/playerstats"
                   component={AddPlayerStats}
                 />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/feed" component={Posts} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/post/:id" component={Post} />
               </Switch>
             </div>
             <Footer />
