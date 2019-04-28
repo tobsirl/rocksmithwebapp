@@ -1,4 +1,4 @@
-# Assignment 2 - ReactJS app + Node.js backend
+# Rocksmith Web Application - ReactJS app + Node.js backend
 
 Name: Paul Tobin
 
@@ -11,7 +11,7 @@ Based on [Rocksmith 2014 remastered](https://rocksmith.ubisoft.com/rocksmith/en-
 
 * Profile for players of the game
 * Update with player stats
-* Store information on platform, instrement and bio
+* Store information on platform, instrument and bio
 
 ## Installation requirements
 Installing dependencies:
